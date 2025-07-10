@@ -15,12 +15,22 @@ $(document).ready(function($) {
         simpleMap(latitude, longitude, markerImage, mapStyle, mapElement);
     }
 
-    $("body").imagesLoaded( function() {
-        $("body").addClass("loading-done");
-        $("[data-animate]").scrolla({
-            mobile: true
+    if ($.isFunction($.fn.imagesLoaded)) {
+        $("body").imagesLoaded(function() {
+            $("body").addClass("loading-done");
+            $("[data-animate]").scrolla({
+                mobile: true
+            });
         });
-    });
+    } else {
+        // Fallback: remove loading screen after window load
+        $(window).on("load", function() {
+            $("body").addClass("loading-done");
+            $("[data-animate]").scrolla({
+                mobile: true
+            });
+        });
+    }
 
 	$('.navbar-nav .nav-link').on('click', function(){
 		$('.navbar-collapse').collapse('hide');
@@ -356,13 +366,6 @@ $(document).ready(function($) {
         }
     });
 
-});
-
-$(window).on("load", function() {
-    $("body").addClass("loading-done");
-    $("[data-animate]").scrolla({
-        mobile: true
-    });
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
